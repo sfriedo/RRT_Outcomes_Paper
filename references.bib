@@ -18,13 +18,41 @@
 %%%  }
 %%% ====================================================================
 
-@Proceedings{dialysisLength,
-title = {Comparative Analysis of SVR and LPR in the Prediction of Dialysis Length},
-year = {2016},
-OPTeditor = {Harry Freitas Da Cruz}
+%%% ================== RRT studies
+
+@article{Schwenger2012,
+abstract = {Critical Care 2012, 16:R140. doi:10.1186/cc11445},
+author = {Schwenger, Vedat and Weigand, Markus a and Hoffmann, Oskar and Dikow, Ralf and Kihm, Lars P and Seckinger, J{\"{o}}rg and Miftari, Nexhat and Schaier, Matthias and Hofer, Stefan and Haar, Caroline and Nawroth, Peter P and Zeier, Martin and Martin, Eike and Morath, Christian},
+doi = {10.1186/cc11445},
+isbn = {1364-8535$\backslash$r1466-609X},
+issn = {1364-8535},
+journal = {Critical Care},
+number = {4},
+pages = {R140},
+pmid = {22839577},
+publisher = {BioMed Central Ltd},
+title = {{Sustained low efficiency dialysis using a single-pass batch system in acute kidney injury - a randomized interventional trial: the REnal Replacement Therapy Study in Intensive Care Unit PatiEnts}},
+url = {http://ccforum.com/content/16/4/R140},
+volume = {16},
+year = {2012}
+}
+@article{Ricci2006,
+abstract = {Acute renal failure (ARF) is a cause of significant morbidity and mortality. Despite advances in supportive care, outcomes in ARF have improved little over the past decades. The primary goals in management of patients with ARF are to optimize hemodynamic and volume status, minimize further renal injury, correct metabolic abnormalities, and permit adequate nutrition. Renal replacement therapy (RRT) is often required to achieve these goals while awaiting renal recovery, but the optimal dose of dialysis in patients with ARF is not known. Extrapolation of required dialysis dose from recommendations in chronic dialysis is unlikely to be appropriate because of the lack of a steady state and differences in distribution volume of urea that are intrinsic to ARF. The prescribed dialysis dose in ARF is often low, and actual delivered dose is often even less than prescribed. Delivery of dialysis in ARF is often hampered by the patient's hypercatabolic state, hemodynamic instability, and volume status, as well as suboptimal vascular access with temporary venous catheters. The impact of intermittent hemodialysis (IHD) versus continuous renal replacement therapy (CRRT) on outcomes in ARF is also not clear. Patient disease severity impacts more than dialysis modality in patient outcome, but when patients are stratified for equal disease severity, CRRT may have potential benefits over IHD in terms of patient survival, fluid and metabolic control, and renal recovery. Strategies associated with improved outcomes that have emerged thus far in ARF are to aim for a time-averaged blood urea nitrogen (BUN) of less than 60 mg/dl with IHD, varying IHD frequency as necessary, or to achieve a minimum ultrafiltration rate of 35 ml/kg/hr with CRRT.},
+author = {Ricci, Zaccaria and Bellomo, Rinaldo and Ronco, Claudio},
+doi = {10.2215/CJN.00520705},
+isbn = {1555-905X (Electronic)$\backslash$r1555-9041 (Linking)},
+issn = {1555905X},
+journal = {Clinical journal of the American Society of Nephrology : CJASN},
+number = {3},
+pages = {380--388},
+pmid = {17699235},
+title = {{Dose of dialysis in acute renal failure.}},
+volume = {1},
+year = {2006}
 }
 
-@article{barrett1997prediction,
+%%% ======================== ML in kidney context
+@article{Barrett1997,
   title={Prediction of early death in end-stage renal disease patients starting dialysis},
   author={Barrett, Brendan J and Parfrey, Patrick S and Morgan, Janet and Barr{\'e}, Paul and Fine, Adrian and Goldstein, Marc B and Handa, S Paul and Jindal, Kailash K and Kjellstrand, Carl M and Levin, Adeera and others},
   journal={American journal of kidney diseases},
@@ -34,65 +62,118 @@ OPTeditor = {Harry Freitas Da Cruz}
   year={1997},
   publisher={Elsevier}
 }
-
-@Article{Schwenger2012,
-author="Schwenger, Vedat
-and Weigand, Markus A.
-and Hoffmann, Oskar
-and Dikow, Ralf
-and Kihm, Lars P.
-and Seckinger, J{\"o}rg
-and Miftari, Nexhat
-and Schaier, Matthias
-and Hofer, Stefan
-and Haar, Caroline
-and Nawroth, Peter P.
-and Zeier, Martin
-and Martin, Eike
-and Morath, Christian",
-title="Sustained low efficiency dialysis using a single-pass batch system in acute kidney injury - a randomized interventional trial: the REnal Replacement Therapy Study in Intensive Care Unit PatiEnts",
-journal="Critical Care",
-year="2012",
-month="Jul",
-day="27",
-volume="16",
-number="4",
-pages="R140",
-abstract="Acute kidney injury (AKI) is associated with a high mortality of up to 60{\%}. The mode of renal replacement therapy (intermittent versus continuous) has no impact on patient survival. Sustained low efficiency dialysis using a single-pass batch dialysis system (SLED-BD) has recently been introduced for the treatment of dialysis-dependent AKI. To date, however, only limited evidence is available in the comparison of SLED-BD versus continuous veno-venous hemofiltration (CVVH) in intensive care unit (ICU) patients with AKI.",
-issn="1364-8535",
-doi="10.1186/cc11445",
-url="https://doi.org/10.1186/cc11445"
+@article{Baby2015,
+author = {Baby, P Swathi and Vital, Panduranga},
+journal = {International Journal of Engineering Research {\&} Technology},
+keywords = {classifications,data,kidney,machine learning,mining,statistical analysis},
+number = {07},
+pages = {206--210},
+title = {{Statistical Analysis and Predicting Kidney Diseases using Machine Learning Algorithms}},
+volume = {4},
+year = {2015}
+}
+@article{Lakshmi2014,
+abstract = {The main objective of this manuscript is to report on research where we took advantage of those available technological advancements to develop prediction models for kidney dialysis survivability, and also the main goal of medical data mining techniques is to get best algorithms that describe given data from multiple aspects. The number of patients on hemodialysis due to end stage kidney disease is increasing. The median survival for these patients is only about 3 years and the cost of providing care is high. Finding ways to improve patient outcomes and reduce the cost of dialysis is a challenging task. Dialysis care is complex and multiple factors may influence patient survival. More than 50 parameters may be monitored while providing a kidney dialysis treatment. Understanding the collective role of these parameters in determining outcomes for an individual patient and administering dividualized treatments is of importance. Individual patient survival may depend on a complex interrelation ship between multiple demographic and clinical variables, medications, and medical interventions. In this research, three data mining techniques (Artificial Neural Networks, Decision tree and Logical Regression) are used to elicit knowledge about the interaction between these variables and patient survival. A performance comparison of three data mining techniques is employed for extracting knowledge in the form of classification rules. The concepts introduced in this research have been applied and tested using a data collected at different dialysis sites. The computational results are reported. Finally, ANN is suggested for Kidney dialysis to get better results with accuracy and performance.},
+author = {Lakshmi, K R and Nagesh, Y and Veerakrishna, M},
+journal = {International Journal of Advances in Engineering {\&} Technology},
+keywords = {Data mining techniques,Dialysis,Kidney,artificial neural networks,decision tree,logistic regression},
+number = {1},
+pages = {242--254},
+title = {{Performance Comparison of Three Data Mining Techniques for Predicting Kidney Dialysis Survivability}},
+volume = {7},
+year = {2014}
+}
+@article{Kusiak2005,
+abstract = {The cost for providing care for patients on hemodialysis due to end stage kidney disease is high. Finding ways to improve patient outcomes and reduce the cost of dialysis is important. Dialysis care is intricate and multiple factors may influence patient survival. Over 50 parameters may be monitored on a regular basis in providing kidney dialysis treatments. Understanding the collective role of these parameters in determining outcomes for an individual patient and administering individualized treatments allowing specific interventions is a challenge. Individual patient survival may depend on a complex interrelationship between multiple demographic and clinical parameters, medications, medical interventions, and the dialysis treatment prescription. In this research, data preprocessing, data transformations, and a data mining approach are used to elicit knowledge about the interaction between many of these measured parameters and patient survival. Two different data mining algorithms were employed for extracting knowledge in the form of decision rules. These rules were used by a decision-making algorithm, which predicts survival of new unseen patients. Important parameters identified by data mining are interpreted for their medical significance. The concepts introduced in this research have been applied and tested using data collected at four dialysis sites. The computational results are reported in the paper. ?? 2004 Elsevier Ltd. All rights reserved.},
+author = {Kusiak, Andrew and Dixon, Bradley and Shah, Shital},
+doi = {10.1016/j.compbiomed.2004.02.004},
+isbn = {0010-4825 (Print)$\backslash$r0010-4825 (Linking)},
+issn = {00104825},
+journal = {Computers in Biology and Medicine},
+keywords = {Data mining,Data preprocessing,Data transformations,Decision making,Dialysis protocol,Hemodialysis,Medical relevance,Survival,dialysis,survival prediction},
+mendeley-tags = {dialysis,survival prediction},
+number = {4},
+pages = {311--327},
+pmid = {15749092},
+title = {{Predicting survival time for kidney dialysis patients: A data mining approach}},
+volume = {35},
+year = {2005}
+}
+@article{Greco2010,
+author = {Greco, R. and Papalia, T. and Lofaro, D. and Maestripieri, S. and Mancuso, D. and Bonofiglio, R.},
+doi = {10.1016/j.transproceed.2010.03.061},
+issn = {00411345},
+journal = {Transplantation Proceedings},
+month = {may},
+number = {4},
+pages = {1134--1136},
+title = {{Decisional Trees in Renal Transplant Follow-up}},
+url = {http://linkinghub.elsevier.com/retrieve/pii/S0041134510003490},
+volume = {42},
+year = {2010}
+}
+@article{Vijayarani2015,
+author = {Vijayarani, S. and Dhayanand, S.},
+journal = {International Journal of Computing and Business Research (IJCBR)},
+keywords = {artificial neural network,data mining,data mining techniques,kidney disease,support vector machine},
+number = {2},
+title = {{Kidney Disease Prediction Using Svm and Ann}},
+volume = {6},
+year = {2015}
+}
+@article{Sinha2015,
+author = {Sinha, Parul; and Sinha, Poonam},
+keywords = {chronic kidney,classification,data mining,disease,k-nearest neighbour,machine learning,support vector},
+number = {12},
+pages = {608--612},
+title = {{Comparative Study of Chronic Kidney Disease Prediction using KNN and SVM}},
+volume = {4},
+year = {2015}
 }
 
-@Article{cpmLee,
-author = {Lee YH, Bang H, Kim DJ},
-title = {How to Establish Clinical Prediction Models},
-journal = {Endocrinol Metab.},
-year = {2016 }
-}
 
-@article{brlYang,
-  author    = {Hongyu Yang and
-               Cynthia Rudin and
-               Margo Seltzer},
-  title     = {Scalable Bayesian Rule Lists},
-  journal   = {CoRR},
-  volume    = {abs/1602.08610},
-  year      = {2016},
-  url       = {http://arxiv.org/abs/1602.08610},
-  archivePrefix = {arXiv},
-  eprint    = {1602.08610},
-  timestamp = {Wed, 07 Jun 2017 14:42:19 +0200},
-  biburl    = {http://dblp.org/rec/bib/journals/corr/YangRS16},
-  bibsource = {dblp computer science bibliography, http://dblp.org}
+%%% ===============  interpretable ML
+@article{Katuwal2016,
+abstract = {Interpretability of machine learning models is critical for data-driven precision medicine efforts. However, highly predictive models are generally complex and are difficult to interpret. Here using Model-Agnostic Explanations algorithm, we show that complex models such as random forest can be made interpretable. Using MIMIC-II dataset, we successfully predicted ICU mortality with 80{\%} balanced accuracy and were also were able to interpret the relative effect of the features on prediction at individual level.},
+archivePrefix = {arXiv},
+arxivId = {1610.09045},
+author = {Katuwal, Gajendra Jung and Chen, Robert},
+eprint = {1610.09045},
+title = {{Machine Learning Model Interpretability for Precision Medicine}},
+url = {http://arxiv.org/abs/1610.09045},
+year = {2016}
 }
-
-@inproceedings{che2016interpretable,
-  title={Interpretable deep models for icu outcome prediction},
-  author={Che, Zhengping and Purushotham, Sanjay and Khemani, Robinder and Liu, Yan},
-  booktitle={AMIA Annual Symposium Proceedings},
-  volume={2016},
-  pages={371},
-  year={2016},
-  organization={American Medical Informatics Association}
+@article{Lipton2016,
+abstract = {Supervised machine learning models boast remarkable predictive capabilities. But can you trust your model? Will it work in deployment? What else can it tell you about the world? We want models to be not only good, but interpretable. And yet the task of interpretation appears underspecified. Papers provide diverse and sometimes non-overlapping motivations for interpretability, and offer myriad notions of what attributes render models interpretable. Despite this ambiguity, many papers proclaim interpretability axiomatically, absent further explanation. In this paper, we seek to refine the discourse on interpretability. First, we examine the motivations underlying interest in interpretability, finding them to be diverse and occasionally discordant. Then, we address model properties and techniques thought to confer interpretability, identifying transparency to humans and post-hoc explanations as competing notions. Throughout, we discuss the feasibility and desirability of different notions, and question the oft-made assertions that linear models are interpretable and that deep neural networks are not.},
+archivePrefix = {arXiv},
+arxivId = {1606.03490},
+author = {Lipton, Zachary C.},
+eprint = {1606.03490},
+number = {Whi},
+title = {{The Mythos of Model Interpretability}},
+url = {http://arxiv.org/abs/1606.03490},
+year = {2016}
+}
+@article{Yang2016,
+abstract = {We present an algorithm for building probabilistic rule lists that is two orders of magnitude faster than previous work. Rule list algorithms are competitors for decision tree algorithms. They are associative classifiers, in that they are built from pre-mined association rules. They have a logical structure that is a sequence of IF-THEN rules, identical to a decision list or one-sided decision tree. Instead of using greedy splitting and pruning like decision tree algorithms, we fully optimize over rule lists, striking a practical balance between accuracy, interpretability, and computational speed. The algorithm presented here uses a mixture of theoretical bounds (tight enough to have practical implications as a screening or bounding procedure), computational reuse, and highly tuned language libraries to achieve computational efficiency. Currently, for many practical problems, this method achieves better accuracy and sparsity than decision trees; further, in many cases, the computational time is practical and often less than that of decision trees. The result is a probabilistic classifier (which estimates P(y = 1|x) for each x) that optimizes the posterior of a Bayesian hierarchical model over rule lists.},
+archivePrefix = {arXiv},
+arxivId = {1602.08610},
+author = {Yang, Hongyu and Rudin, Cynthia and Seltzer, Margo},
+eprint = {1602.08610},
+title = {{Scalable Bayesian Rule Lists}},
+url = {http://arxiv.org/abs/1602.08610},
+year = {2016}
+}
+@article{Che2016,
+abstract = {Exponential surge in health care data, such as longitudinal data from electronic health records (EHR), sensor data from intensive care unit (ICU), etc., is providing new opportunities to discover meaningful data-driven characteristics and patterns ofdiseases. Recently, deep learning models have been employedfor many computational phenotyping and healthcare prediction tasks to achieve state-of-the-art performance. However, deep models lack interpretability which is crucial for wide adoption in medical research and clinical decision-making. In this paper, we introduce a simple yet powerful knowledge-distillation approach called interpretable mimic learning, which uses gradient boosting trees to learn interpretable models and at the same time achieves strong prediction performance as deep learning models. Experiment results on Pediatric ICU dataset for acute lung injury (ALI) show that our proposed method not only outperforms state-of-the-art approaches for morality and ventilator free days prediction tasks but can also provide interpretable models to clinicians.},
+author = {Che, Zhengping and Purushotham, Sanjay and Khemani, Robinder and Liu, Yan},
+isbn = {1942-597X},
+issn = {1942-597X},
+journal = {AMIA ... Annual Symposium proceedings. AMIA Symposium},
+pages = {371--380},
+pmid = {28269832},
+title = {{Interpretable Deep Models for ICU Outcome Prediction.}},
+url = {http://www.ncbi.nlm.nih.gov/pubmed/28269832},
+volume = {2016},
+year = {2016}
 }
