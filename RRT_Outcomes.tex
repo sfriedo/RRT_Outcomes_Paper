@@ -150,28 +150,79 @@ As seen in figure \ref{fig:cohort}, out of the approximately 46,000 patients pre
 	\caption{Cohort selection of the dialysis procedures based on the patients.}
 \end{figure}
 
-For each procedure, we have about 80 features defining it. Those include patient demographics such as age or BMI, dialysis parameters such as the duration of the procedure, comorbidities as well as lab values. Additionally, we include patient vitals and measurements on how "well" the patient is doing such as 90-day mortality, the number of days he/she spent without mechanical ventilation and in the ICU in general.
+For each procedure, we have about 80 features defining it. 
+Those include patient demographics such as age or BMI, dialysis parameters such as the duration of the procedure, comorbidities as well as lab values. 
+Additionally, we include patient vitals and measurements on how "well" the patient is doing such as 90-day mortality, the number of days he/she spent without mechanical ventilation and in the ICU in general.
 
 \subsection{Missing Data}
-Due to the manually curated nature of the \emph{MIMICIII} dataset, aside from the inconsistencies within, a lot of data is missing. \emph{TODO: Retrieve numbers!!!}
-As the scikit-learn models need a complete dataset for training, we decided to impute the missing values. We evaluated both mean/median imputation and K-Nearest-Neighbour imputation and decided on the latter, giving us an increase of about 2\% in accuracy.
+Due to the manually curated nature of the \emph{MIMICIII} dataset, aside from the inconsistencies within, a lot of data is missing. 
+\emph{TODO: Retrieve numbers!!!}
+As the scikit-learn models need a complete dataset for training, we decided to impute the missing values. 
+We evaluated both mean/median imputation and K-Nearest-Neighbour imputation and decided on the latter, giving us an increase of about 2\% in accuracy.
 
 
 \section{Models}
-In order to compare performance of both interpretable and non-interpretable models, we trained one model for each category. In the following section, we describe the models and strategies used as well as the parameters chosen for training.
+In order to compare performance of both interpretable and non-interpretable models, we trained one model for each category. 
+In the following section, we describe the models and strategies used as well as the parameters chosen for training.
 
 \subsection{Interpretable - Bayesian Rule Lists}
-For the interpretable model, we chose the existing Python 2 implementation of Bayesian Rule Lists (BRL) as described in \cite{Letham2015}. This algorithm tries to find \emph{if...then...else} statements over a dataset with the important criteria of them being sparse for better human readability. It achieves this goal by mining antecendents from the data and afterwards computing the posterior distribution over the antecedent lists.\\
-The current implementation of BRL has the shortcoming of only being able to classify binary targets. Thus, we have to adjust the target features accordingly.
+For the interpretable model, we chose the existing Python 2 implementation of Bayesian Rule Lists (BRL) as described in \cite{Letham2015}. 
+They pose itself as a direct competitor to decision tree approaches, as they have a high accuracy for classification while still being easy to read for humans. \\
+This algorithm tries to find \emph{if...then...else} statements over a dataset with the important criteria of them being sparse for better human readability. 
+It achieves this goal by mining antecendents from the data and afterwards computing the posterior distribution over the antecedent lists.\\
+The current implementation of BRL has the shortcoming of only being able to classify binary targets. 
+Thus, we have to adjust the target features accordingly.
 \subsubsection{Parameters}
-The sole adjustable parameter in the used implementation is the maximum number of iterations. Multiple adjustments to this parameter - including changes by factor 10 - did not result in a significant change, neither for the runtime nor for the accuracy.
+The sole adjustable parameter in the used implementation is the maximum number of iterations. 
+Multiple adjustments to this parameter - including changes by factor 10 - did not result in a significant change, neither for the runtime nor for the accuracy. 
+For the evaluation, we chose a value of 50,000 maximum iterations.
 
 \subsection{Non-Interpretable - Deep Neural Network}
-As non-interpretable model, we chose the powerful and widely used Deep Neural Network (DNN). Specifically, the scikit-learn implementation Multi-Layer Perceptron (MLP). Just as other implementations, this network consists of multiple layers of so-called "neurons": one input layer with as many neurons as there are inputs, one output layer with the size of the number of target features and hidden layers varying in size and quantity. 
+As non-interpretable model, we chose the powerful and widely used Deep Neural Network (DNN). 
+Specifically, the scikit-learn implementation Multi-Layer Perceptron (MLP). 
+Just as other implementations, this network consists of multiple layers of so-called "neurons": one input layer with as many neurons as there are inputs, one output layer with the size of the number of target features and hidden layers varying in size and quantity. 
+The weights of each neuron is updated after each iteration of training, optimizing the log-loss function. \\
+Scikit-learn offers implementations for both regression and classification tasks.
+\subsubsection{Parameters}
+Neural networks have a wealth of parameters to be adjusted. 
+Doing a grid search over some of the parameters, we found the default ones from the library to perform the best.\\
+This means the learning rate - determining the speed and accuracy of convergence - is set to 0.001. 
+The activation function, determining the output of the neurons in the hidden layer, is the rectifier linear unit "relu". 
+The network consists of one hidden layer with 100 neurons. 
+The maximum number of iterations before convergence is set to 200.
+
+\subsection{Interpretablity Approach - Mimic Learning}
+The large amount of neurons in the DNN and the many parameters influencing their weights and output make it very difficult - if not impossible - for a human to understand the influence of each feature on the training. \\
+That is why we wanted to give some insight into the workings of the DNN by applying a method called \emph{mimic learning}. 
+Orientated on the works of \cite{Che2016}, we train an interpretable model - the so-called "mimic model" - on the outputs of the non-interpretable model.
+The mimic model takes the same input features as the non-interpretable model.
+For classification tasks, the output of the non-interpretable model are called "soft scores", because as they are probabilites, they are continuous variables, coming close to the actual target features.
+In theory, the training of the mimic model on the soft scores allows to create a much smaller, thus understandable, faster but still equally accurate model.
+Using the principle of knowledge distillation, it is even possible for the mimic model to perform better than the non-interpretable model. \\
+In our case, the DNN is the non-interpretable model.
+For the mimic model, we need a model, which is able to predict continuous scores.
+We decided on Bayesian Ridge Regression.
+\subsubsection{Bayesian Ridge Regression}
+The Bayesian Ridge Regression, like common linear regression, tries to find coefficients for each input feature so that they map to the target feature, minimizing loss.
+In addition to common linear regression, it includes regularization parameters to control the growth of the coefficients.
+Therefore, this model is less prone to overfitting while still being as fast as linear regression.
+
+
+\section{Performance Metrics}
+
+
+
+\section{Results}
+
+
+\section{Discussion}
 
 
 \section{Conclusion}
-The conclusion goes here.
+
+
+\section{Future Work}
+
 
 
 \bibliographystyle{IEEEtran}
