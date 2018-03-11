@@ -209,7 +209,21 @@ Therefore, this model is less prone to overfitting while still being as fast as 
 
 
 \section{Performance Metrics}
-
+In order to compare the models' performance to each other, we have to specify performance metrics, in this case for binary classification.
+All of them are working with the terms of true and false positives and negatives.
+The terms \emph{positives} and \emph{negatives} refer to the prediction of the model, while the terms of \emph{true} and \emph{false} refer to the fact if the prediction of the model was correct.
+Additionally, all targets that are true are \emph{relevant} elements. \\
+\textbf{Sensitivity / Recall} specifies the number of relevant items that have been selected.
+This means the number of true positives divided by the number of all true targets. \\
+\textbf{Precision} specifies the number of relevant instances in the result set.
+This means, out of all as positively classified targets, how many have actually been positive. \\
+\textbf{Specificity} specifies the number of correctly classified negative instances. \\
+The \textbf{Diagnostic Odds Ratio} (DOR) is defined as the ratio of the odds of the prediction being positive if the target is positive against the odds that the prediction is positive if the target is negative.
+It range from zero to infinity, with a DOR of 1 meaning that the prediction is equally likely to give a positive prediction no matter the true status.
+A higher value indicates a better prediction. \\
+The \textbf{Receiver Operating Characteristics curve} (ROC) plots the true positive rate against the false positive rate at various thresholds.
+The important measure for this plot is the \textbf{Area Under the Curve} (AUC), a value ranging from zero to one, with an AUC of 0.5 describing a random classifier.
+Higher values indicate better classification performance.
 
 
 \section{Results}
