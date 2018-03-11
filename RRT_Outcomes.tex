@@ -227,7 +227,46 @@ Higher values indicate better classification performance.
 
 
 \section{Results}
+In the following section, we want to compare the performance of our interpretable model, the BRL, and our non-interpretable model, the DNN.
+Although there are continuous values for our target variables in the dataset, we had to transform them into a binary format in order for the BRL classifier to work.
+This is why the target variable for this sample is mortality within 90 days of the procedure.
 
+\begin{figure}[h]
+	\includegraphics[width=0.5\textwidth]{class_DIED_90DAYS.jpg}
+	\label{fig:mortalityCLASS}
+	\caption{Performance comparison of the classifiers when predicting 90-day mortality.}
+\end{figure}
+
+Figure \ref{fig:mortalityCLASS} shows general performance of the classifiers.
+We can see that, as expected, the DNN outperforms the BRL classifier in every performance criteria.
+The difference is about ten percent for every performance measure.
+
+\begin{figure}[h]
+	\includegraphics[width=0.5\textwidth]{brl_DIED_90DAYS.jpg}
+	\label{fig:mortalityBRL}
+	\caption{Excerpt of the rules from the BRL classifier when prediction 90-day mortality.}
+\end{figure}
+
+Due to the interpretable nature of the BRL, we can look at the importance of single features.
+Figure \ref{fig:mortalityBRL} shows the influence of some features and their values on the prediction of 90-day mortality.
+For example, we can see that a lower \emph{Elixhauser-van Walraven} score - a score combining several comorbidities - along with a lower \emph{Glomerular Filtration Rate} two days before the procedure leads to a lower possibility of death within 90 days.\\
+
+If we want to see how the DNN actually makes its decisions, we have to apply the mimic learning strategy.
+First, we have to evaluate if the performance of the mimic model is reasonably good when only being trained on the outputs of the DNN.
+Figure \ref{fig:mortalityROC} presents the performance of the mimic model - our Bayesian Ridge Regression - relative to the other classifiers.
+
+
+\begin{figure}[h]
+	\includegraphics[width=0.5\textwidth]{ROC_DIED_90DAYS.png}
+	\label{fig:mortalityROC}
+	\caption{ROC curve comparing the classifiers for prediction of 90-day mortality.}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[width=0.5\textwidth]{coef_DIED_90DAYS.png}
+	\label{fig:mortalityCOEF}
+	\caption{Coefficients of the most important features for the Bayesian Ridge Regression trained as mimic model when predicting for a true outcome of 90-day mortality.}
+\end{figure}
 
 \section{Discussion}
 
