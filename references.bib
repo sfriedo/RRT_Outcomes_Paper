@@ -154,6 +154,25 @@ title = {{The Mythos of Model Interpretability}},
 url = {http://arxiv.org/abs/1606.03490},
 year = {2016}
 }
+@article{Letham2015,
+abstract = {We aim to produce predictive models that are not only accurate, but are also interpretable to human experts. Our models are decision lists, which consist of a series of if {\ldots} then. . . statements (e.g., if high blood pressure, then stroke) that discretize a high-dimensional, multivariate feature space into a series of simple, readily interpretable decision statements. We introduce a generative model called Bayesian Rule Lists that yields a posterior distribution over possible decision lists. It employs a novel prior structure to encourage sparsity. Our experiments show that Bayesian Rule Lists has predictive accuracy on par with the current top algorithms for prediction in machine learning. Our method is motivated by recent developments in personalized medicine, and can be used to produce highly accurate and interpretable medical scoring systems. We demonstrate this by producing an alternative to the CHADS2 score, actively used in clinical practice for estimating the risk of stroke in patients that have atrial fibrillation. Our model is as interpretable as CHADS2, but more accurate.},
+archivePrefix = {arXiv},
+arxivId = {arXiv:1511.01644v1},
+author = {Letham, Benjamin and Rudin, Cynthia and McCormick, Tyler H. and Madigan, David},
+doi = {10.1214/15-AOAS848},
+eprint = {arXiv:1511.01644v1},
+isbn = {9781577356288},
+issn = {19417330},
+journal = {Annals of Applied Statistics},
+keywords = {Bayesian analysis,Classification,Interpretability},
+mendeley-groups = {Interpretability},
+number = {3},
+pages = {1350--1371},
+title = {{Interpretable classifiers using rules and bayesian analysis: Building a better stroke prediction model}},
+volume = {9},
+year = {2015}
+}
+
 @article{Yang2016,
 abstract = {We present an algorithm for building probabilistic rule lists that is two orders of magnitude faster than previous work. Rule list algorithms are competitors for decision tree algorithms. They are associative classifiers, in that they are built from pre-mined association rules. They have a logical structure that is a sequence of IF-THEN rules, identical to a decision list or one-sided decision tree. Instead of using greedy splitting and pruning like decision tree algorithms, we fully optimize over rule lists, striking a practical balance between accuracy, interpretability, and computational speed. The algorithm presented here uses a mixture of theoretical bounds (tight enough to have practical implications as a screening or bounding procedure), computational reuse, and highly tuned language libraries to achieve computational efficiency. Currently, for many practical problems, this method achieves better accuracy and sparsity than decision trees; further, in many cases, the computational time is practical and often less than that of decision trees. The result is a probabilistic classifier (which estimates P(y = 1|x) for each x) that optimizes the posterior of a Bayesian hierarchical model over rule lists.},
 archivePrefix = {arXiv},
@@ -177,3 +196,38 @@ url = {http://www.ncbi.nlm.nih.gov/pubmed/28269832},
 volume = {2016},
 year = {2016}
 }
+
+%%% ========== Tools
+
+@misc{RapidMiner,
+  title = {RapidMiner},
+  howpublished = {\url{https://rapidminer.com/}},
+  note = {Accessed: 2018-03-11}
+}
+@misc{SKLearn,
+  title = {scikit-learn},
+  howpublished = {\url{http://scikit-learn.org/stable/index.html}},
+  note = {Accessed: 2018-03-11}
+}
+@article{Farber2012,
+abstract = {The SAP HANA database is positioned as the core of the SAP HANA Appliance to support complex business analytical processes in combination with transactionally consistent operational workloads. Within this paper, we outline the basic characteristics of the SAP HANA database, emphasizing the distinctive features that differentiate the SAP HANA database from other classical relational database management systems. On the technical side, the SAP HANA database consists of multiple data processing engines with a distributed query processing environment to provide the full spectrum of data processing -- from classical relational data supporting both row- and column-oriented physical representations in a hybrid engine, to graph and text processing for semi- and unstructured data management within the same system. From a more application-oriented perspective, we outline the specific support provided by the SAP HANA database of multiple domain-specific languages with a built-in set of natively implemented business functions. SQL -- as the lingua franca for relational database systems -- can no longer be considered to meet all requirements of modern applications, which demand the tight interaction with the data management layer. Therefore, the SAP HANA database permits the exchange of application semantics with the underlying data management platform that can be exploited to increase query expressiveness and to reduce the number of individual application-to-database round trips.},
+author = {F{\"{a}}rber, Franz and Cha, Sang Kyun and Primsch, J{\"{u}}rgen and Bornh{\"{o}}vd, Christof and Sigg, Stefan and Lehner, Wolfgang},
+doi = {10.1145/2094114.2094126},
+issn = {01635808},
+journal = {ACM SIGMOD Record},
+title = {{SAP HANA database}},
+year = {2012}
+}
+@article{Johnson2016,
+abstract = {MIMIC-III ('Medical Information Mart for Intensive Care') is a large, single-center database comprising information relating to patients admitted to critical care units at a large tertiary care hospital. Data includes vital signs, medications, laboratory measurements, observations and notes charted by care providers, fluid balance, procedure codes, diagnostic codes, imaging reports, hospital length of stay, survival data, and more. The database supports applications including academic and industrial research, quality improvement initiatives, and higher education coursework.},
+author = {Johnson, Alistair E W and Pollard, Tom J and Shen, Lu and Lehman, Li-Wei H and Feng, Mengling and Ghassemi, Mohammad and Moody, Benjamin and Szolovits, Peter and Celi, Leo Anthony and Mark, Roger G},
+doi = {10.1038/sdata.2016.35},
+issn = {2052-4463},
+journal = {Scientific data},
+pmid = {27219127},
+publisher = {Nature Publishing Group},
+title = {{MIMIC-III, a freely accessible critical care database}},
+volume = {3},
+year = {2016}
+}
+
