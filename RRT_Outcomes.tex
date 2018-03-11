@@ -53,6 +53,7 @@
   \usepackage{cite}
 \fi
 
+\usepackage{textcomp}
 \usepackage{graphicx}
 \graphicspath{ {figures/} }
 
@@ -249,12 +250,7 @@ The difference is about ten percent for every performance measure.
 
 Due to the interpretable nature of the BRL, we can look at the importance of single features.
 Figure \ref{fig:mortalityBRL} shows the influence of some features and their values on the prediction of 90-day mortality.
-For example, we can see that a lower \emph{Elixhauser-van Walraven} score - a score combining several comorbidities - along with a lower \emph{Glomerular Filtration Rate} two days before the procedure leads to a lower possibility of death within 90 days.\\
-
-If we want to see how the DNN actually makes its decisions, we have to apply the mimic learning strategy.
-First, we have to evaluate if the performance of the mimic model is reasonably good when only being trained on the outputs of the DNN.
-Figure \ref{fig:mortalityROC} presents the performance of the mimic model - our Bayesian Ridge Regression - relative to the other classifiers.
-
+For example, we can see that a lower \emph{Elixhauser-van Walraven} score - a score combining several comorbidities - along with a lower \emph{Glomerular Filtration Rate} two days before the procedure leads to a lower possibility of death within 90 days.
 
 \begin{figure}[h]
 	\includegraphics[width=0.5\textwidth]{ROC_DIED_90DAYS.png}
@@ -262,20 +258,52 @@ Figure \ref{fig:mortalityROC} presents the performance of the mimic model - our 
 	\caption{ROC curve comparing the classifiers for prediction of 90-day mortality.}
 \end{figure}
 
+If we want to see how the DNN actually makes its decisions, we have to apply the mimic learning strategy.
+First, we have to evaluate if the performance of the mimic model is reasonably good when only being trained on the outputs of the DNN.
+Figure \ref{fig:mortalityROC} presents the performance of the mimic model - our Bayesian Ridge Regression - relative to the other classifiers.
+We can see that, while the regression is still worse than the DNN, it performs better than the BRL, if only by a small margin.
+
 \begin{figure}[h]
 	\includegraphics[width=0.5\textwidth]{coef_DIED_90DAYS.png}
 	\label{fig:mortalityCOEF}
 	\caption{Coefficients of the most important features for the Bayesian Ridge Regression trained as mimic model when predicting for a true outcome of 90-day mortality.}
 \end{figure}
 
+If we now look into the most important coefficients of the regression in figure \ref{fig:mortalityCOEF}, we can see the influence of single features on a positive prediction of 90-day mortality.
+So, for example, the higher the rightmost feature, the age of the patient, the higher is the probability of the patient to die within 90 days.
+On the other hand side, the higher the leftmost feature, the potassium value in the blood of the patient, the less likely the patient is to die within 90 days.
+
 \section{Discussion}
+The classification results of the models can be improved.
+While providing a sufficiently good performance for researching the interpretability, their confidence has to be higher for the practical use in the medical context. \\
+Looking at the influence of single features, the results are mixed.
+While some of them make sense intuitively, like a higher age correlating with a higher chance of mortality, some just appear to be coincidental correlations.
+For example, there is most probably not a linear correlation between certain blood values and the mortality, as either too low or too large values can be influencing the patient's health negatively.
+In the case of potassium, values between 3.5 and 5.5 \textmu g/l would be fine values, but higher or lower values can lead to heart arrhythmia. \\
+The same observation holds true for the output of the BRL.
+While obesity and a longer stay in the hospital are most likely indeed factors for a higher mortality, other associations with the lactate value in the blood may be random coincidence.
+Especially because higher lactate values usually lead to other complications, so the upper bound of "infinity" is very rough. \\
+In order to refine and validate those assumptions, it is necessary to go further with the data analysis.
+Finding actual upper and lower bounds in the dataset can provide some insight to the actual values the model considers when making predictions.
+
+By training the regression as a mimic model, we can make assumptions on how the DNN \emph{may} make its decisions.
+There still is a gap between the performance of the regression model and the DNN, which makes it difficult to say how close those coefficients are to the actual influence of features in the DNN.
+The mimic model performs worse when being trained on the outputs of the DNN as opposed to being trained on the real targets, because it most probably also learns the errors of the DNN.
+This can be a resolvable issue by improving the performance of the DNN through further parameter tuning and data preparation.
 
 
 \section{Conclusion}
+In this paper, we compared the performance of different models when being used in the prediction in the renal context.
+An important part is the interpretability of said models to validate the decision making.
+We used a mimic learning approach to make a Deep Neural Network interpretable and compared this output to that of the interpretable model, the Bayesian Rule Lists.
+Preliminary results for prediction of 90-day mortality enable the exploration of interpretability, showing the influence of single features.
+While some of the features' influence can intuitively be classified as correct, others' influence needs further data examination to prove or disprove. \\
 
-
-\section{Future Work}
-
+Future work includes more elaborate use of the data. 
+This means the inclusion of more features, more elaborate imputation and collection of information about the patients. \\
+Additionally, more target features can be added to the existing experiments. 
+The binary classification limitation of the current implementation of BRL can be overcome by using a more advanced algorithm proposed by Yang \cite{Yang2016}.
+When a higher precision is achieved, interpretable models can be used as a Clinical Decision Support System, allowing the doctors to validate the decisions and giving patients insight into their treatment.
 
 
 \bibliographystyle{IEEEtran}
