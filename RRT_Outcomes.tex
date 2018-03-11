@@ -85,8 +85,8 @@ Many parameters of the dialysis can be adjusted and the outcome of the procedure
 In this paper, we introduce a clinical decision support system to predict the effect of a given dialysis on a patient while in the intensive care unit (ICU). \\
 For this purpose, we employ two kinds of machine learning models: Bayesian Rule Lists (BRL) and Deep Neural Networks (DNN). Although the DNN may provide better accuracy, its decision making is not easily interpretable for humans. For this reason, we use mimic learning as a method to make the DNN interpretable. \\
 Results show us that the DNN outperforms our BRL classifier as expected, but by a rather small margin.
-For the mimic learning process, we used a bayesian ridge regression model.
-Even though the regression model performs worse when training as a mimic model as opposed to drectly on the data, it provides some insight into the inner workings of the DNN.
+For the mimic learning process, we used a Bayesian Ridge Regression model.
+Even though the regression model performs worse when training as a mimic model as opposed to directly on the data, it provides some insight into the inner workings of the DNN.
 \end{abstract}
 
 
@@ -250,7 +250,7 @@ The difference is about ten percent for every performance measure.
 
 Due to the interpretable nature of the BRL, we can look at the importance of single features.
 Figure \ref{fig:mortalityBRL} shows the influence of some features and their values on the prediction of 90-day mortality.
-For example, we can see that a lower \emph{Elixhauser-van Walraven} score - a score combining several comorbidities - along with a lower \emph{Glomerular Filtration Rate} two days before the procedure leads to a lower possibility of death within 90 days.
+For example, we can see that a lower \emph{Elixhauser-van Walraven} score - a score combining several comorbidities - along with a lower \emph{Glomerular Filtration Rate} two days before the procedure leads to a lower possibility of death within 90 days. \\
 
 \begin{figure}[h]
 	\includegraphics[width=0.5\textwidth]{ROC_DIED_90DAYS.png}
@@ -261,7 +261,7 @@ For example, we can see that a lower \emph{Elixhauser-van Walraven} score - a sc
 If we want to see how the DNN actually makes its decisions, we have to apply the mimic learning strategy.
 First, we have to evaluate if the performance of the mimic model is reasonably good when only being trained on the outputs of the DNN.
 Figure \ref{fig:mortalityROC} presents the performance of the mimic model - our Bayesian Ridge Regression - relative to the other classifiers.
-We can see that, while the regression is still worse than the DNN, it performs better than the BRL, if only by a small margin.
+We can see that, while the regression is still worse than the DNN, it performs better than the BRL, if only by a small margin. \\
 
 \begin{figure}[h]
 	\includegraphics[width=0.5\textwidth]{coef_DIED_90DAYS.png}
@@ -284,7 +284,7 @@ The same observation holds true for the output of the BRL.
 While obesity and a longer stay in the hospital are most likely indeed factors for a higher mortality, other associations with the lactate value in the blood may be random coincidence.
 Especially because higher lactate values usually lead to other complications, so the upper bound of "infinity" is very rough. \\
 In order to refine and validate those assumptions, it is necessary to go further with the data analysis.
-Finding actual upper and lower bounds in the dataset can provide some insight to the actual values the model considers when making predictions.
+Finding actual upper and lower bounds in the dataset can provide some insight to the actual values the model considers when making predictions. \\
 
 By training the regression as a mimic model, we can make assumptions on how the DNN \emph{may} make its decisions.
 There still is a gap between the performance of the regression model and the DNN, which makes it difficult to say how close those coefficients are to the actual influence of features in the DNN.
