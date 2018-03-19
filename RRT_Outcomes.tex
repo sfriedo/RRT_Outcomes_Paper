@@ -64,6 +64,7 @@
 \newacronym{brl}{BRL}{Bayesian Rule Lists}
 \newacronym{dnn}{DNN}{Deep Neural Network}
 \newacronym{aki}{AKI}{Acute Kidney Injury}
+\newacronym{svm}{SVM}{Support Vector Machine}
 
 
 \begin{document}
@@ -129,7 +130,8 @@ By training an interpretable model on the predictions of the more accurate, non-
 
 The main purpose of this paper is to develop a \gls{cdss} to determine patient-specific outcomes after \gls{rrt} in the \gls{icu}.
 We evaluate the performance and interpretability of two different models, \gls{brl} as the interpretable one and \gls{dnn} as the non-interpretable one.
-Afterwards, we employ mimic learning to overcome the tradeoff between accuracy and interpretability and give some insight into the decision making process of the \gls{dnn}. \\
+Afterwards, we employ mimic learning to overcome the tradeoff between accuracy and interpretability and give some insight into the decision making process of the \gls{dnn}.
+We then ask an expert in the field of renal medicine for further evaluation and validation of the models. \\
 
 After evaluating related work in section \ref{sec:related}, we present the tools, data and models used in section \ref{sec:methods}.
 Thereafter, we present the results in section \ref{sec:results} and discuss them in section \ref{sec:discussion}.
@@ -137,13 +139,20 @@ Thereafter, we present the results in section \ref{sec:results} and discuss them
 \section{Related Work}
 \label{sec:related}
 In the field of prediction concerning the renal system, a lot of work has already been done.
-In \cite{Schwenger2012} mortality of patients after RRT in the ICU was observed and set in relation to the method of dialysis, proposing a new cost-efficient using a single-pass batch system. The dosage of dialysis was discussed and set in correlation with blood values in \cite{Ricci2006}. \\
-Oftentimes, mortality is used as a target outcome in the renal context \cite{Barrett1997} \cite{Lakshmi2014} \cite{Kusiak2005}.
-When it comes to model selection, \cite{Baby2015} found a bayes algorithm suitable, while \cite{Lakshmi2014} compared regression, random forest and artificial neural networks and proposed the latter for better performance and accuracy. Other models include decision trees \cite{Greco2010} and support vector machines \cite{Vijayarani2015} \cite{Sinha2015}. \\
-The term \emph{interpretability} in the context of machine learning is defined and its extent discussed in \cite{Lipton2016}. In \cite{Katuwal2016} methods of getting interpretability into models in the medical context is researched. Especially for the prediction in the ICU, \cite{Che2016} proposes mimic learning as a technique to be used for interpretability. \\
+For example, Schwenger et al. researched the mortality of patients undergoing dialysis with different procedures, thus making patient mortality a fitting target for prediction by our model \cite{Schwenger2012}.
+Likewise, Ricci et al. researched dialysis duration and showed impact of blood values, making them suitable features to train the model upon \cite{Ricci2006}. \\
+When it comes to model selection, Baby et al. found a bayes algorithm suitable \cite{Baby2015}, while Greco et al. proposed decision trees \cite{Greco2010}.
+The issue with those models is that they lack accuracy when compared to more advanced models.
+Vijayarani et al. and Sinha et al. used \gls{svm} for the prediction in the renal context and achieved satisfying results, but lack interpretablity \cite{Vijayarani2015} \cite{Sinha2015}.
+In an equal manner, Lakshmi et al. compared the three models regression, random forest and artificial neural networks and proposed the latter for better performance and accuracy, while still lacking interpretability \cite{Lakshmi2014}. \\
+Lipton et al. discussed the term \emph{interpretability} in the context of machine learning \cite{Lipton2016}. 
+Particular focus was on the definition of the decision boundaries as well as influence of specific features, which is important for our evaluation.
+Katuwal et al. worked on achieving interpretability of machine learning models in precision medicine and used the locally-interpretable model- agnostic explanations (LIME) technique, achieving accuracies of 80\% \cite{Katuwal2016}.
+Ultimately, we decided on using the mimic learning technique as proposed by Che et al. for usage in the context of patients in the \gls{icu} \cite{Che2016}.
+While Che et al. used Gradient Boosting Trees as mimic learning model, we wanted to employ a different model and compare the results, especially when transferred into the renal context.
 
 In the context of this work, we try to unify both the prediction of patient outcomes in the renal context as well as the interpretability of the models used.
-We compare the results of mimic learning as described in \cite{Che2016} with the results of an interpretable classifier, Bayesian Rule Lists as proposed in \cite{Letham2015}.
+We compare the results of mimic learning as described by Che et al. with the results of an interpretable classifier, \gls{brl} as proposed by Letham et al \cite{Che2016} \cite{Letham2015}.
 
 
 \section{Tools}
