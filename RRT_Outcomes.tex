@@ -56,10 +56,18 @@
 \usepackage{textcomp}
 \usepackage{graphicx}
 \graphicspath{ {figures/} }
+\usepackage[acronym,nomain]{glossaries}
+
+\newacronym{cdss}{CDSS}{Clinical Decision Support System}
+\newacronym{rrt}{RRT}{Renal Replacement Therapy}
+\newacronym{icu}{ICU}{Intensive Care Unit}
+\newacronym{brl}{BRL}{Bayesian Rule Lists}
+\newacronym{dnn}{DNN}{Deep Neural Network}
+\newacronym{aki}{AKI}{Acute Kidney Injury}
 
 
 \begin{document}
-\title{Prediction of Patient Outcomes after \\Renal Replacement Therapy (RRT) in the ICU }
+\title{Prediction of Patient Outcomes after \\Renal Replacement Therapy in the Intensive Care Unit }
 
 
 % author names and affiliations
@@ -75,19 +83,19 @@ Email: siegfried.horschig@student.hpi.de}
 \maketitle
 
 \begin{abstract}
-In order to compensate impairments of the renal system in the human body, artificial methods in the form of renal replacement therapy (RRT), called dialysis, have to be introduced.
+In order to compensate impairments of the renal system in the human body, artificial methods in the form of \gls{rrt}, called dialysis, have to be introduced.
 Many parameters of the dialysis can be adjusted and the outcome of the procedure may change with different patient characteristics. 
-In this paper, we introduce a clinical decision support system to predict the effect of a given dialysis on a patient while in the intensive care unit (ICU). \\
-For this purpose, we employ two kinds of machine learning models: Bayesian Rule Lists (BRL) and Deep Neural Networks (DNN). Although the DNN may provide better accuracy, its decision making is not easily interpretable for humans. For this reason, we use mimic learning as a method to make the DNN interpretable. \\
-Results show us that the DNN outperforms our BRL classifier as expected, but by a rather small margin.
+In this paper, we introduce a clinical decision support system to predict the effect of a given dialysis on a patient while in the \gls{icu}. \\
+For this purpose, we employ two kinds of machine learning models: \gls{brl} and \gls{dnn}. Although the \gls{dnn} may provide better accuracy, its decision making is not easily interpretable for humans. For this reason, we use mimic learning as a method to make the \gls{dnn} interpretable. \\
+Results show us that the \gls{dnn} outperforms our \gls{brl} classifier as expected, but by a rather small margin.
 For the mimic learning process, we used a Bayesian Ridge Regression model.
-Even though the regression model performs worse when training as a mimic model as opposed to directly on the data, it provides some insight into the inner workings of the DNN.
+Even though the regression model performs worse when training as a mimic model as opposed to directly on the data, it provides some insight into the inner workings of the \gls{dnn}.
 \end{abstract}
 
 
 \section{Introduction}
 The renal system in the human body has the purpose to eliminate wastes from the body and control levels of certain substances in the blood. 
-If this system is impaired, for example due to Acute Kidney Injury (AKI), artificial methods in the form of Renal Replacement Therapy (RRT) have to be introduced, more commonly known under the term of dialysis. \\
+If this system is impaired, for example due to \gls{aki}, artificial methods in the form of \gls{rrt} have to be introduced, more commonly known under the term of dialysis. \\
 There are different options for dialysis available.
 One example is the hemodialysis, where the patient's blood is pumped through a dialyzer, inside of which is a liquid called dialysate.
 This liquid's composition determines which substances should be filtered out of the blood.
@@ -95,31 +103,39 @@ The dialyzer separates the blood and the dialysate though a partially permeable 
 Another example for the dialysis is the peritoneal dialysis, which uses the peritoneal cavity inside the patient as a container for the dialysate. \\
 
 The dialysis’ outcomes are highly dependent on both the patient’s characteristics and the parameters as well as the type of the dialysis. 
-So, usually, patients undergoing the peritoneal dialysis experience lesser health issues related to the dialysis than those undergoing hemodialysis, as there is less pressure on the circulatory system.
+So, usually, patients undergoing the peritoneal dialysis experience lesser health issues related to the dialysis than those undergoing hemodialysis, as there is less pressure on the circulatory system \cite{Fenton1997}.
 On the other hand, the hemodialysis is more efficient in such a way that it needs less time for the same amount of filtration. \\
 Especially the hemodialysis is a costly process which needs specialized equipment and therefore has many parameters to be tuned. 
 These include, but are not limited to the duration of the process, the filtration rate and flow rates of the blood and dialysate.
-We want to introduce a machine learning model that, based on those parameters as input, allows to make a prediction for the health of the patient after the procedure. \\
+There is no consensus about the optimal duration for a dialysis procedure.
+Studies exist proposing both longer durations \cite{jungers2001longer} as well as shorter procedures \cite{ronco1988technical}.
+It stands to reason that a \gls{cdss} is needed in order to predict optimal parameters based on patients' characteristics. \\
 
-Aside from usual criteria like accuracy or recall, when employing a machine learning model in the medical context one especially important factor is the interpretability of the model.
+Aside from usual criteria like accuracy or recall, when employing a machine learning model in the medical context one especially important factor is the interpretability of the model \cite{Katuwal2016}.
 This is due to the fact that the doctors want to make decisions based on those predictions and take full responsibility for the consequences, so they have to validate the decision making process.
 Oftentimes, models just show correlations between various parameters, and those correlations have to be manually checked for causal relations.
-Additionally, the European Union introduced regulations (taking effect 2018) that give consumers in any sector a "right to explanation".
+Additionally, the European Union introduced regulations (taking effect 2018) that give consumers in any sector a "right to explanation" \cite{goodman2016european}.
 Essentially, this means that in any decision making process that is done by machines, be it a credit application or a diagnosis, the individual has the right to access meaningful information about the logic involved. \\
 
 This way, we can roughly separate machine learning algorithms in two categories: interpretable and non-interpretable. 
-One example for interpretable models are Bayesian Rule Lists (BRL).
+One example for interpretable models are \gls{brl} \cite{Letham2015}.
 By presenting itself as \emph{if...then...else} lists, it is easy for humans to comprehend both the decision making and the individual influence of each parameter on the outcome. \\
-Deep Neural Networks (DNN) on the other hand are non-interpretable, because the weights of the nodes in the hidden layers is everything they expose to the outside.
+\gls{dnn} on the other hand are more accurate, but non-interpretable.
+This is because the weights of the nodes in the hidden layers is everything they expose to the outside.
 Due to the fact that different loss and activation functions take effect when updating those weights, the abstraction to the original input data is just too large for a human to grasp. \\
-For this reason, we want to make non-interpretable models interpretable, giving some insight into their inner workings and decision making. \\
+At this point, we have a tradeoff between interpretability and accuracy.
+In order to overcome this tradeoff, we employ a strategy called mimic learning \cite{Che2016}.
+By training an interpretable model on the predictions of the more accurate, non-interpretable model, we gain insight into its decision process and can therefore make the non-interpretable model interpretable. \\
 
-The main purpose of this paper is to develop a clinical decision support system to determine patient-specific outcomes after RRT in the ICU and evaluate the interpretability of different models used in this process. 
-We employ two different models, BRL as the interpretable one and DNN as the non-interpretable one.
-Afterwards, we show performance comparison of both those models and try to give some insight into the decision-making process of the DNN using mimic learning.
+The main purpose of this paper is to develop a \gls{cdss} to determine patient-specific outcomes after \gls{rrt} in the \gls{icu}.
+We evaluate the performance and interpretability of two different models, \gls{brl} as the interpretable one and \gls{dnn} as the non-interpretable one.
+Afterwards, we employ mimic learning to overcome the tradeoff between accuracy and interpretability and give some insight into the decision making process of the \gls{dnn}. \\
 
+After evaluating related work in section \ref{sec:related}, we present the tools, data and models used in section \ref{sec:methods}.
+Thereafter, we present the results in section \ref{sec:results} and discuss them in section \ref{sec:discussion}.
 
 \section{Related Work}
+\label{sec:related}
 In the field of prediction concerning the renal system, a lot of work has already been done.
 In \cite{Schwenger2012} mortality of patients after RRT in the ICU was observed and set in relation to the method of dialysis, proposing a new cost-efficient using a single-pass batch system. The dosage of dialysis was discussed and set in correlation with blood values in \cite{Ricci2006}. \\
 Oftentimes, mortality is used as a target outcome in the renal context \cite{Barrett1997} \cite{Lakshmi2014} \cite{Kusiak2005}.
@@ -131,8 +147,9 @@ We compare the results of mimic learning as described in \cite{Che2016} with the
 
 
 \section{Tools}
+\label{sec:methods}
 For quick prototyping, we used \emph{RapidMiner} \cite{RapidMiner}, allowing us to prepare data, develop and cross-validate first models. 
-For deeper model development, we implemented them with the \emph{scikit-learn} library \cite{SKLearn} in Python. \\
+For the final models, we implemented them with the \emph{scikit-learn} library \cite{SKLearn} in Python. \\
 The Data we used was provided by the \emph{MIMICIII} dataset \cite{Johnson2016} stored in a \emph{HANA} database \cite{Farber2012}.
 
 
@@ -163,7 +180,7 @@ In the following section, we describe the models and strategies used as well as 
 
 \subsection{Interpretable - Bayesian Rule Lists}
 For the interpretable model, we chose the existing Python 2 implementation of Bayesian Rule Lists (BRL) as described in \cite{Letham2015}. 
-They pose itself as a direct competitor to decision tree approaches, as they have a high accuracy for classification while still being easy to read for humans. \\
+They position themselves as a direct competitor to decision tree approaches, as they have a high accuracy for classification while still being easy to read for humans. \\
 This algorithm tries to find \emph{if...then...else} statements over a dataset with the important criteria of them being sparse for better human readability. 
 It achieves this goal by mining antecendents from the data and afterwards computing the posterior distribution over the antecedent lists.\\
 The current implementation of BRL has the shortcoming of only being able to classify binary targets. 
@@ -190,13 +207,13 @@ The maximum number of iterations before convergence is set to 200.
 \subsection{Interpretablity Approach - Mimic Learning}
 The large amount of neurons in the DNN and the many parameters influencing their weights and output make it very difficult - if not impossible - for a human to understand the influence of each feature on the training. \\
 That is why we wanted to give some insight into the workings of the DNN by applying a method called \emph{mimic learning}. 
-Orientated on the works of \cite{Che2016}, we train an interpretable model - the so-called "mimic model" - on the outputs of the non-interpretable model.
+Building upon the approach of \cite{Che2016}, we train an interpretable model - the so-called "mimic model" - on the outputs of the non-interpretable model.
 The mimic model takes the same input features as the non-interpretable model.
 For classification tasks, the output of the non-interpretable model are called "soft scores", because as they are probabilites, they are continuous variables, coming close to the actual target features.
 In theory, the training of the mimic model on the soft scores allows to create a much smaller, thus understandable, faster but still equally accurate model.
 Using the principle of knowledge distillation, it is even possible for the mimic model to perform better than the non-interpretable model. \\
 In our case, the DNN is the non-interpretable model.
-For the mimic model, we need a model, which is able to predict continuous scores.
+For the mimic model, we need a model which is able to predict continuous scores.
 We decided on Bayesian Ridge Regression.
 \subsubsection{Bayesian Ridge Regression}
 The Bayesian Ridge Regression, like common linear regression, tries to find coefficients for each input feature so that they map to the target feature, minimizing loss.
@@ -223,6 +240,7 @@ Higher values indicate better classification performance.
 
 
 \section{Results}
+\label{sec:results}
 In the following section, we want to compare the performance of our interpretable model, the BRL, and our non-interpretable model, the DNN.
 Although there are continuous values for our target variables in the dataset, we had to transform them into a binary format in order for the BRL classifier to work.
 This is why the target variable for this sample is mortality within 90 days of the procedure.
@@ -269,6 +287,7 @@ So, for example, the higher the rightmost feature, the age of the patient, the h
 On the other hand side, the higher the leftmost feature, the potassium value in the blood of the patient, the less likely the patient is to die within 90 days.
 
 \section{Discussion}
+\label{sec:discussion}
 The classification results of the models can be improved.
 While providing a sufficiently good performance for researching the interpretability, their confidence has to be higher for the practical use in the medical context. \\
 Looking at the influence of single features, the results are mixed.
