@@ -55,6 +55,11 @@
 
 \usepackage{textcomp}
 \usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[margin=1in]{geometry}
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\usepackage{longtable}
 \graphicspath{ {figures/} }
 \usepackage[acronym,nomain]{glossaries}
 
@@ -154,15 +159,20 @@ While Che et al. used Gradient Boosting Trees as mimic learning model, we wanted
 In the context of this work, we try to unify both the prediction of patient outcomes in the renal context as well as the interpretability of the models used.
 We compare the results of mimic learning as described by Che et al. with the results of an interpretable classifier, \gls{brl} as proposed by Letham et al \cite{Che2016} \cite{Letham2015}.
 
-
-\section{Tools}
+\section{Methods}
 \label{sec:methods}
+In this section, we will present our methods and data for predicting patient outcomes after \gls{rrt} in the \gls{icu}.
+We start by naming the tools used to create the models and the data those models operate upon.
+Afterwards, we will explain the models used as well as the interpretability approach.
+This section concludes with the introduction of our performance metrics applied to evaluate the models.
+
+\subsection{Tools}
 For quick prototyping, we used \emph{RapidMiner} \cite{RapidMiner}, allowing us to prepare data, develop and cross-validate first models. 
 For the final models, we implemented them with the \emph{scikit-learn} library \cite{SKLearn} in Python. \\
 The Data we used was provided by the \emph{MIMICIII} dataset \cite{Johnson2016} stored in a \emph{HANA} database \cite{Farber2012}.
 
 
-\section{Data}
+\subsection{Data}
 The \emph{MIMICIII} dataset contains hospital admission data for patient collected over an eleven-year period in a Boston hospital. 
 As seen in figure \ref{fig:cohort}, out of the approximately 46,000 patients present in the dataset, we extracted 925 relevant patients for us, totaling to approximately 3,000 dialysis procedures we can train our models upon.
 
@@ -176,36 +186,36 @@ For each procedure, we have about 80 features defining it.
 Those include patient demographics such as age or BMI, dialysis parameters such as the duration of the procedure, comorbidities as well as lab values. 
 Additionally, we include patient vitals and measurements on how "well" the patient is doing such as 90-day mortality, the number of days he/she spent without mechanical ventilation and in the ICU in general.
 
-\subsection{Missing Data}
+\subsubsection{Missing Data}
 Due to the manually curated nature of the \emph{MIMICIII} dataset, aside from the inconsistencies within, a lot of data is missing. 
 \emph{TODO: Retrieve numbers!!!}
 As the scikit-learn models need a complete dataset for training, we decided to impute the missing values. 
 We evaluated both mean/median imputation and K-Nearest-Neighbour imputation and decided on the latter, giving us an increase of about 2\% in accuracy.
 
 
-\section{Models}
+\subsection{Models}
 In order to compare performance of both interpretable and non-interpretable models, we trained one model for each category. 
 In the following section, we describe the models and strategies used as well as the parameters chosen for training.
 
-\subsection{Interpretable - Bayesian Rule Lists}
+\subsubsection{Interpretable - Bayesian Rule Lists}
 For the interpretable model, we chose the existing Python 2 implementation of Bayesian Rule Lists (BRL) as described in \cite{Letham2015}. 
 They position themselves as a direct competitor to decision tree approaches, as they have a high accuracy for classification while still being easy to read for humans. \\
 This algorithm tries to find \emph{if...then...else} statements over a dataset with the important criteria of them being sparse for better human readability. 
 It achieves this goal by mining antecendents from the data and afterwards computing the posterior distribution over the antecedent lists.\\
 The current implementation of BRL has the shortcoming of only being able to classify binary targets. 
 Thus, we have to adjust the target features accordingly.
-\subsubsection{Parameters}
+\paragraph{Parameters}
 The sole adjustable parameter in the used implementation is the maximum number of iterations. 
 Multiple adjustments to this parameter - including changes by factor 10 - did not result in a significant change, neither for the runtime nor for the accuracy. 
 For the evaluation, we chose a value of 50,000 maximum iterations.
 
-\subsection{Non-Interpretable - Deep Neural Network}
+\subsubsection{Non-Interpretable - Deep Neural Network}
 As non-interpretable model, we chose the powerful and widely used Deep Neural Network (DNN). 
 Specifically, the scikit-learn implementation Multi-Layer Perceptron (MLP). 
 Just as other implementations, this network consists of multiple layers of so-called "neurons": one input layer with as many neurons as there are inputs, one output layer with the size of the number of target features and hidden layers varying in size and quantity. 
 The weights of each neuron is updated after each iteration of training, optimizing the log-loss function. \\
 Scikit-learn offers implementations for both regression and classification tasks.
-\subsubsection{Parameters}
+\paragraph{Parameters}
 Neural networks have a wealth of parameters to be adjusted. 
 Doing a grid search over some of the parameters, we found the default ones from the library to perform the best.\\
 This means the learning rate - determining the speed and accuracy of convergence - is set to 0.001. 
@@ -213,7 +223,7 @@ The activation function, determining the output of the neurons in the hidden lay
 The network consists of one hidden layer with 100 neurons. 
 The maximum number of iterations before convergence is set to 200.
 
-\subsection{Interpretablity Approach - Mimic Learning}
+\subsubsection{Interpretablity Approach - Mimic Learning}
 The large amount of neurons in the DNN and the many parameters influencing their weights and output make it very difficult - if not impossible - for a human to understand the influence of each feature on the training. \\
 That is why we wanted to give some insight into the workings of the DNN by applying a method called \emph{mimic learning}. 
 Building upon the approach of \cite{Che2016}, we train an interpretable model - the so-called "mimic model" - on the outputs of the non-interpretable model.
@@ -224,13 +234,13 @@ Using the principle of knowledge distillation, it is even possible for the mimic
 In our case, the DNN is the non-interpretable model.
 For the mimic model, we need a model which is able to predict continuous scores.
 We decided on Bayesian Ridge Regression.
-\subsubsection{Bayesian Ridge Regression}
+\paragraph{Bayesian Ridge Regression}
 The Bayesian Ridge Regression, like common linear regression, tries to find coefficients for each input feature so that they map to the target feature, minimizing loss.
 In addition to common linear regression, it includes regularization parameters to control the growth of the coefficients.
 Therefore, this model is less prone to overfitting while still being as fast as linear regression.
 
 
-\section{Performance Metrics}
+\subsection{Performance Metrics}
 In order to compare the models' performance to each other, we have to specify performance metrics, in this case for binary classification.
 All of them are working with the terms of true and false positives and negatives.
 The terms \emph{positives} and \emph{negatives} refer to the prediction of the model, while the terms of \emph{true} and \emph{false} refer to the fact if the prediction of the model was correct.
@@ -328,9 +338,111 @@ Additionally, more target features can be added to the existing experiments.
 The binary classification limitation of the current implementation of BRL can be overcome by using a more advanced algorithm proposed by Yang \cite{Yang2016}.
 When a higher precision is achieved, interpretable models can be used as a Clinical Decision Support System, allowing the doctors to validate the decisions and giving patients insight into their treatment.
 
-
 \bibliographystyle{IEEEtran}
 \bibliography{references}
+
+\onecolumn
+
+\appendices
+\section{Input Features}
+\label{app:input}
+
+
+\begin{longtable}[c]{C{0.2\textwidth} | C{0.2\textwidth} | C{0.4\textwidth} | C{0.2\textwidth}}
+
+\textbf{Attribute Group} & \textbf{Attribute} & \textbf{Remarks} & \textbf{Data Type} \\
+\midrule
+Demographics & Gender & & Nominal \\
+Demographics & Ethnicity & & Nominal \\
+Demographics & Age & & Integer \\
+Demographics & Height & & Integer \\
+Demographics & Weight & & Integer \\
+Demographics & BMI & & Integer \\
+Comorbidities & Aids & & Boolean \\
+Comorbidities & Acute Kidney Injury & e.g. 'NO AKI', ''STAGE1', ect. & Nominal \\
+Comorbidities & Coagulopathy & & Boolean \\
+Comorbidities & Congestive Heart Failure & & Boolean \\
+Comorbidities & Blood Loss Anemia & & Boolean \\
+Comorbidities & Iron Deficiency Anemia & & Boolean \\
+Comorbidities & Depression & & Boolean \\
+Comorbidities & Diabetes Complicated & & Boolean \\
+Comorbidities & Diabetes Uncomplicated & & Boolean \\
+Comorbidities & Fluid Electrolyte Imbalance     & & Boolean \\
+Comorbidities & Hypertension & & Boolean \\
+Comorbidities & Hypothyroidism & & Boolean \\
+Comorbidities & Liver Disease & & Boolean \\
+Comorbidities & Lymphoma & & Boolean \\
+Comorbidities & Metastatic Cancer & & Boolean \\
+Comorbidities & Solid Tumor & & Boolean \\
+Comorbidities & Obesity & & Boolean \\
+Comorbidities & Paralysis & & Boolean \\
+Comorbidities & Other Neurological & & Boolean \\
+Comorbidities & Peptic Ulcer & & Boolean \\
+Comorbidities & Peripheral Vascular Disease & & Boolean \\
+Comorbidities & Psychoses & & Boolean \\
+Comorbidities & Pulmonary Vascular Disease & & Boolean \\
+Comorbidities & Renal Failure & & Boolean \\
+Comorbidities & Arthritis & & Boolean \\
+Comorbidities & Valvular Disease & & Boolean \\
+Comorbidities & Weight Loss & & Boolean \\
+ICU Aggregate Measures/Scores & Elixhauser van Walraven & & Real Number \\
+ICU Aggregate Measures/Scores & SOFA score total & & Real Number \\
+ICU Aggregate Measures/Scores & SOFA score renal & & Real Number \\
+ICU Aggregate Measures/Scores & SAPS score total & & Real Number \\
+ICU Aggregate Measures/Scores & OASIS score & & Real Number \\
+Lab Values & Albumin & Averaged over values measured before procedure started  & Real Number \\
+Lab Values & Anion & Gap   Averaged over values measured before procedure started  & Real Number \\
+Lab Values & Bands &   Averaged over values measured before procedure started  & Real Number \\
+Lab Values & Bicarbonate & Averaged over values measured before procedure started  & Real Number \\
+Lab Values & Bilirubin &   Averaged over values measured before procedure started  & Real Number \\
+Lab Values & BUN & Averaged over values measured before procedure started  & Real Number \\
+Lab Values & Glucose & Averaged over values measured before procedure started  & Real Number \\
+Lab Values & Hematocrit &  Averaged over values measured before procedure started  & Real Number \\
+Lab Values & Hemoglobin &  Averaged over values measured before procedure started  & Real Number \\
+Lab Values & INR & Averaged over values measured before procedure started  & Real Number \\
+Lab Values & PT &  Averaged over values measured before procedure started  & Real Number \\
+Lab Values & PTT (Partial Thromboplastin Time) & Averaged over values measured before procedure started  & Real Number \\
+Lab Values & Lactate & Averaged over values measured before procedure started  & Real Number \\
+Lab Values & Platelet &    Averaged over values measured before procedure started  & Real Number \\
+Lab Values & Potassium &   Averaged over values measured before procedure started  & Real Number \\
+Lab Values & Sodium &  Averaged over values measured before procedure started  & Real Number \\
+Lab Values & WBC & Averaged over values measured before procedure started  & Real Number \\
+Event Procedure Info & Dosage & Length of Dialysis Procedure & Integer \\
+Lab Values & GFR\textunderscore 24\textunderscore B & Glomerular Filtration Rate 24 Hours before the procedure & Real number \\
+Lab Values & GFR\textunderscore 48\textunderscore B & Glomerular Filtration Rate 48 Hours before the procedure & Real number \\
+Lab Values & GFR\textunderscore 72\textunderscore B & Glomerular Filtration Rate 72 Hours before the procedure & Real number \\
+Lab Values & GFR\textunderscore 24\textunderscore A & Glomerular Filtration Rate 24 Hours after the procedure & Real number \\
+Lab Values & GFR\textunderscore 48\textunderscore A & Glomerular Filtration Rate 48 Hours after the procedure & Real number \\
+Lab Values & GFR\textunderscore 72\textunderscore A & Glomerular Filtration Rate 72 Hours after the procedure & Real number \\
+Lab Values & Creatinine\textunderscore 24\textunderscore B & Creatinine 24 Hours before the procedure & Real number \\
+Lab Values & Creatinine\textunderscore 48\textunderscore B & Creatinine 48 Hours before the procedure & Real number \\
+Lab Values & Creatinine\textunderscore 72\textunderscore B & Creatinine 72 Hours before the procedure & Real number \\
+Lab Values & Creatinine\textunderscore 24\textunderscore A & Creatinine 24 Hours after the procedure & Real number \\
+Lab Values & Creatinine\textunderscore 48\textunderscore A & Creatinine 48 Hours after the procedure & Real number \\
+Lab Values & Creatinine\textunderscore 72\textunderscore A & Creatinine 72 Hours after the procedure & Real number \\
+Vitals & Heart Rate & Earliest value at the beginning of the procedure & Integer \\
+Vitals & Systolic Blood Pressure & Earliest value at the beginning of the procedure & Integer \\
+Vitals & Diastolic Blood Pressure & Earliest value at the beginning of the procedure & Integer \\
+Vitals & Mean Blood Pressure & Earliest value at the beginning of the procedure & Integer \\
+Vitals & Respiration Rate & Earliest value at the beginning of the procedure & Integer \\
+Vitals & Temperature & Temperature in °C, Earliest value at the beginning of the procedure & Integer \\
+Vitals & SPO2 & Blood Oxygen Level, Earliest value at the beginning of the procedure & Integer \\
+\end{longtable}
+
+\section{Model Output}
+\label{app:output}
+
+
+\begin{longtable}[c]{C{0.5\textwidth} | C{0.5\textwidth}}
+
+\textbf{Attribute} & \textbf{Data Type} \\
+\midrule
+\gls{icu} Length of Stay \textless 7 Days & Boolean \\
+Mechanical Ventilation Free \textless 7 Days & Boolean \\ 
+90-Day Mortality & Boolean \\
+\gls{icu} Length of Stay & Numeral \\
+Mechanical Ventilation Free & Numeral \\
+\end{longtable}
 
 \end{document}
 
