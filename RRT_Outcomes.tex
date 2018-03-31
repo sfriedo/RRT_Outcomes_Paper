@@ -75,7 +75,7 @@
 
 
 \begin{document}
-\title{Prediction of Patient Outcomes after \\Renal Replacement Therapy in the Intensive Care Unit }
+\title{Prediction of Patient Outcomes after \\Renal Replacement Therapy in Intensive Care}
 
 
 % author names and affiliations
@@ -93,8 +93,8 @@ Email: siegfried.horschig@student.hpi.de}
 \begin{abstract}
 In order to compensate impairments of the renal system in the human body, artificial methods in the form of \gls{rrt}, called dialysis, have to be introduced.
 Many parameters of the dialysis can be adjusted and the outcome of the procedure may change with different patient characteristics. 
-In this paper, we introduce a clinical decision support system to predict the effect of a given dialysis on a patient while in the \gls{icu}. \\
-For this purpose, we employ two kinds of machine learning models: \gls{brl} and \gls{dnn}. Although the \gls{dnn} may provide better accuracy, its decision making is not easily interpretable for humans. For this reason, we use mimic learning as a method to make the \gls{dnn} interpretable. \\
+In this paper, we introduce a clinical decision support system to predict the effect of a given dialysis on a patient while in the \gls{icu}. 
+For this purpose, we employ two kinds of machine learning models: \gls{brl} and \gls{dnn}. Although the \gls{dnn} may provide better accuracy, its decision making is not easily interpretable for humans. For this reason, we use mimic learning as a method to make the \gls{dnn} interpretable. 
 Results show us that the \gls{dnn} outperforms our \gls{brl} classifier as expected, but by a rather small margin.
 For the mimic learning process, we used a Bayesian Ridge Regression model.
 Even though the regression model performs worse when training as a mimic model as opposed to directly on the data, it provides some insight into the inner workings of the \gls{dnn}.
@@ -109,7 +109,6 @@ One example is the hemodialysis, where the patient's blood is pumped through a d
 This liquid's composition determines which substances should be filtered out of the blood.
 The dialyzer separates the blood and the dialysate though a partially permeable membrane, allowing for the filtering of the blood through osmosis.
 Another example for the dialysis is the peritoneal dialysis, which uses the peritoneal cavity inside the patient as a container for the dialysate. \\
-
 The dialysis’ outcomes are highly dependent on both the patient’s characteristics and the parameters as well as the type of the dialysis. 
 So, usually, patients undergoing the peritoneal dialysis experience lesser health issues related to the dialysis than those undergoing hemodialysis, as there is less pressure on the circulatory system \cite{Fenton1997}.
 On the other hand, the hemodialysis is more efficient in such a way that it needs less time for the same amount of filtration. \\
@@ -118,13 +117,11 @@ These include, but are not limited to the duration of the process, the filtratio
 There is no consensus about the optimal duration for a dialysis procedure.
 Studies exist proposing both longer durations \cite{jungers2001longer} as well as shorter procedures \cite{ronco1988technical}.
 It stands to reason that a \gls{cdss} is needed in order to predict optimal parameters based on patients' characteristics. \\
-
 Aside from usual criteria like accuracy or recall, when employing a machine learning model in the medical context one especially important factor is the interpretability of the model \cite{Katuwal2016}.
 This is due to the fact that the doctors want to make decisions based on those predictions and take full responsibility for the consequences, so they have to validate the decision making process.
 Oftentimes, models just show correlations between various parameters, and those correlations have to be manually checked for causal relations.
 Additionally, the European Union introduced regulations (taking effect 2018) that give consumers in any sector a "right to explanation" \cite{goodman2016european}.
 Essentially, this means that in any decision making process that is done by machines, be it a credit application or a diagnosis, the individual has the right to access meaningful information about the logic involved. \\
-
 This way, we can roughly separate machine learning algorithms in two categories: interpretable and non-interpretable. 
 One example for interpretable models are \gls{brl} \cite{Letham2015}.
 By presenting itself as \emph{if...then...else} lists, it is easy for humans to comprehend both the decision making and the individual influence of each parameter on the outcome. \\
@@ -134,12 +131,10 @@ Due to the fact that different loss and activation functions take effect when up
 At this point, we have a tradeoff between interpretability and accuracy.
 In order to overcome this tradeoff, we employ a strategy called mimic learning \cite{Che2016}.
 By training an interpretable model on the predictions of the more accurate, non-interpretable model, we gain insight into its decision process and can therefore make the non-interpretable model interpretable. \\
-
-The main purpose of this paper is to develop a \gls{cdss} to determine patient-specific outcomes after \gls{rrt} in the \gls{icu}.
+The main contribution of this paper lies in the development of a \gls{cdss} to determine patient-specific outcomes after \gls{rrt} in the \gls{icu}.
 We evaluate the performance and interpretability of two different models, \gls{brl} as the interpretable one and \gls{dnn} as the non-interpretable one.
 Afterwards, we employ mimic learning to overcome the tradeoff between accuracy and interpretability and give some insight into the decision making process of the \gls{dnn}.
 We then ask an expert in the field of renal medicine for further evaluation and validation of the models. \\
-
 After evaluating related work in section \ref{sec:related}, we present the tools, data and models used in section \ref{sec:methods}.
 Thereafter, we present the results in section \ref{sec:results} and discuss them in section \ref{sec:discussion}.
 
@@ -156,8 +151,7 @@ Lipton et al. discussed the term \emph{interpretability} in the context of machi
 Particular focus was on the definition of the decision boundaries as well as influence of specific features, which is important for our evaluation.
 Katuwal et al. worked on achieving interpretability of machine learning models in precision medicine and used the locally-interpretable model- agnostic explanations (LIME) technique, achieving accuracies of 80\% \cite{Katuwal2016}.
 Ultimately, we decided on using the mimic learning technique as proposed by Che et al. for usage in the context of patients in the \gls{icu} \cite{Che2016}.
-While Che et al. used Gradient Boosting Trees as mimic learning model, we wanted to employ a different model and compare the results, especially when transferred into the renal context.
-
+While Che et al. used Gradient Boosting Trees as mimic learning model, we wanted to employ a different model and compare the results, especially when transferred into the renal context. \\
 In the context of this work, we try to unify both the prediction of patient outcomes in the renal context as well as the interpretability of the models used.
 We compare the results of mimic learning as described by Che et al. with the results of an interpretable classifier, \gls{brl} as proposed by Letham et al \cite{Che2016} \cite{Letham2015}.
 
@@ -179,18 +173,19 @@ The \emph{MIMICIII} dataset contains hospital admission data for patient collect
 As seen in figure \ref{fig:cohort}, out of the approximately 46,000 patients present in the dataset, we extracted 925 relevant patients for us, totaling to approximately 3,000 dialysis procedures we can train our models upon.
 
 \begin{figure}[h]
-	\includegraphics[width=0.5\textwidth]{cohort.jpg}
-	\label{fig:cohort}
+	\centering
+	\includegraphics[width=0.5\textwidth]{cohort.pdf}
+	\vspace*{-6mm}
 	\caption{Cohort selection of the dialysis procedures based on the patients.}
+	\label{fig:cohort}
 \end{figure}
-
 For each procedure, we have about 80 features defining it.
 In cooperation with an expert from the \emph{Nierenzentrum Heidelberg}, we conducted interviews in order to curate a list of suitable features.
 Those include patient demographics such as age or BMI, dialysis parameters such as the duration of the procedure, comorbidities as well as lab values. 
 Additionally, we include patient vitals and measurements on how "well" the patient is doing such as 90-day mortality, the number of days he/she spent without mechanical ventilation and in the ICU in general.
 The full list of input and output features can be seen in the appendices \ref{app:input} and \ref{app:output}.
 
-\subsubsection{Missing Data}
+\subsubsection*{Missing Data}
 Due to the manually curated nature of the \emph{MIMICIII} dataset, aside from the inconsistencies within, a significant amount of data is missing. 
 For example, the columns showing Creatinine and \gls{gfr} values before and after the procedure are missing in 20\% of samples.
 As the scikit-learn models need a complete dataset for training, we decided to impute the missing values.
@@ -215,7 +210,7 @@ These rule are generated by mining antecedents from the data and afterwards comp
 However, there are algorithms providing a higher accuracy, which also have the capability of more elaborate parameter tuning.
 Additionally, the current implementation of \gls{brl} has the shortcoming of a very long runtime and only being able to classify binary targets. 
 Thus, we have to adjust the target features accordingly.
-\paragraph{Parameters}
+\paragraph*{Parameters}
 The sole adjustable parameter in the used implementation is the maximum number of iterations. 
 Multiple adjustments to this parameter - including changes by factor 10 - did not result in a significant change, neither for the runtime nor for the accuracy. 
 For the evaluation, we chose a value of 50,000 maximum iterations.
@@ -233,7 +228,7 @@ Here, $K$ is the activation function, such as the rectifier function. \\
 \gls{dnn} are a widely used form of machine learning due to their versatility and high accuracy.
 They provide a wealth of parameters to tune, but finding the right ones for a specific use case can prove cumbersome.
 Furthermore, the decision making of such a neural network is not comprehensible to a human and thus provides nearly no interpretability.
-\paragraph{Parameters}
+\paragraph*{Parameters}
 The amount of parameters to be adjusted when using neural networks is very high.
 Doing a grid search over some of the parameters, we found the default ones from the library to perform the best.\\
 This means the learning rate - determining the speed and accuracy of convergence - is set to 0.001. 
@@ -253,7 +248,7 @@ This means, that certain noise in the training data, which could have a bad infl
 In our case, the \gls{dnn} is the non-interpretable model.
 For the mimic model, we need a model which is able to predict continuous scores.
 We decided on Bayesian Ridge Regression.
-\paragraph{Bayesian Ridge Regression}
+\paragraph*{Bayesian Ridge Regression}
 The Bayesian Ridge Regression, like common linear regression, tries to find coefficients for each input feature so that they map to the target feature, minimizing loss.
 In addition to common linear regression, it includes regularization parameters to control the growth of the coefficients.
 Therefore, this model is less prone to overfitting while still being as fast as linear regression. \\
@@ -288,57 +283,57 @@ In the following section, we want to compare the performance of our interpretabl
 Although there are continuous values for our target variables in the dataset, we had to transform them into a binary format in order for the BRL classifier to work.
 This is why the target variable for this sample is mortality within 90 days of the procedure. \\
 When imputing the values, we tried different approaches such as mean or median imputation and KNN imputation.
-We settled for KNN imputation, giving us an increase of approximately two percent in accuracy. \\
-
+We settled for KNN imputation, giving us an increase of approximately two percent in accuracy.
 \begin{figure}[h]
-	\includegraphics[width=0.5\textwidth]{class_DIED_90DAYS.png}
-	\label{fig:mortalityCLASS}
+	\centering
+	\includegraphics[width=0.5\textwidth]{class_DIED_90DAYS_adjusted_scale.png}
+	\vspace*{-6mm}
 	\caption{Performance comparison of the classifiers DNN (here represented by the scikit-learn implementation MLP) and BRL when predicting 90-day mortality.}
+	\label{fig:mortalityCLASS}
 \end{figure}
-
+\clearpage
 Figure \ref{fig:mortalityCLASS} shows general performance of the classifiers.
 We can see that, as expected, the DNN outperforms the BRL classifier in every performance criteria.
 The difference is about ten percent for every performance measure. \\
 Concerning runtimes, there is quite the difference between the two classifiers.
 While the DNN takes only a few seconds to conduct the full training with the configuration described above, the BRL needed up to one hour to train on the same data.
-
+Due to the interpretable nature of the BRL, we can look at the importance of single features.
 \begin{figure}[h]
+	\centering
 	{
 	\setlength{\fboxsep}{0pt}
 	\setlength{\fboxrule}{1pt}
 	\fbox{\includegraphics[width=0.5\textwidth]{brl_DIED_90DAYS.jpg}}
 	}
-	\label{fig:mortalityBRL}
 	\caption{Excerpt of the rules from the BRL classifier when predicting 90-day mortality.}
-\end{figure}
-
-Due to the interpretable nature of the BRL, we can look at the importance of single features.
+	\label{fig:mortalityBRL}
+\end{figure} \\
 Figure \ref{fig:mortalityBRL} shows the influence of some features and their values on the prediction of 90-day mortality.
 For example, we can see that a lower \emph{Elixhauser-van Walraven} score - a score combining several comorbidities - along with a lower \emph{Glomerular Filtration Rate} two days before the procedure leads to a lower possibility of death within 90 days. \\
-
 If we want to see how the DNN actually makes its decisions, we have to apply the mimic learning strategy.
-First, we have to evaluate if the performance of the mimic model is reasonably good when only being trained on the outputs of the DNN. \\
-
+First, we have to evaluate if the performance of the mimic model is reasonably good when only being trained on the outputs of the DNN.
+\newpage
 \begin{figure}[h]
+	\centering
 	\includegraphics[width=0.5\textwidth]{ROC_DIED_90DAYS.png}
-	\label{fig:mortalityROC}
+	\vspace*{-6mm}
 	\caption{ROC curve comparing the classifiers for prediction of 90-day mortality.}
+	\label{fig:mortalityROC}	
 \end{figure}
-
 Figure \ref{fig:mortalityROC} presents the performance of the mimic model - our Bayesian Ridge Regression - relative to the other classifiers.
-We can see that, while the regression is still worse than the DNN, it performs better than the BRL, if only by a small margin. \\
-
+We can see that, while the regression is still worse than the DNN, it performs better than the BRL, if only by a small margin.
 \begin{figure}[h]
-	\includegraphics[width=0.5\textwidth]{coef_DIED_90DAYS.png}
-	\label{fig:mortalityCOEF}
+	\centering
+	\includegraphics[width=0.5\textwidth]{coef_DIED_90DAYS_adjusted_scale.png}
+	\vspace*{-6mm}
 	\caption{Coefficients of the most important features for the Bayesian Ridge Regression trained as mimic model when predicting for a true outcome of 90-day mortality.}
-\end{figure}
-
+	\label{fig:mortalityCOEF}
+\end{figure} \\
 If we now look into the most important coefficients of the regression in figure \ref{fig:mortalityCOEF}, we can see the influence of single features on a positive prediction of 90-day mortality.
 For example, the higher the rightmost feature, the age of the patient, the higher is the probability of the patient to die within 90 days.
 On the other hand side, the higher the leftmost feature, the hemoglobin value in the blood of the patient, the less likely the patient is to die within 90 days.
 
-\newpage
+\clearpage
 \section{Discussion}
 \label{sec:discussion}
 The classification results of the models can be improved.
@@ -357,7 +352,6 @@ Thus, the model interpretability gives us the possibility to look at the correla
 In order to refine and validate those assumptions, it is necessary to go further with the data analysis.
 Finding actual upper and lower bounds in the dataset can provide some insight to the actual values the model considers when making predictions.
 Additionally, missing data may has a significant influence on the quality of the predictions and certain features could be dropped if they are missing a large amount of values. \\
-
 By training the regression as a mimic model, we can make assumptions on how the DNN \emph{may} make its decisions.
 There still is a gap between the performance of the regression model and the DNN, which makes it difficult to say how close those coefficients are to the actual influence of features in the DNN.
 The mimic model performs worse when being trained on the outputs of the DNN as opposed to being trained on the real targets, because it most probably also learns the errors of the DNN.
@@ -372,7 +366,6 @@ An important part is the interpretability of said models to validate the decisio
 We used a mimic learning approach to make a \gls{dnn} interpretable and compared this output to that of the interpretable model, the \gls{brl}.
 Preliminary results for prediction of 90-day mortality enable the exploration of interpretability, showing the influence of single features.
 While some of the features' influence can intuitively be classified as correct, others' influence needs further data examination to prove or disprove. \\
-
 Future work includes more elaborate use of the data. 
 This means the inclusion of more features, more elaborate imputation and collection of more information about the patients. \\
 Additionally, more target features can be added to the existing experiments. 
